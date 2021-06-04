@@ -1,4 +1,4 @@
-# MJPEGDataFilePlayer
+# MJPEG DataFile Player
 
 This is a Windows app for playing MJPEG format files.
 Created in C #.
