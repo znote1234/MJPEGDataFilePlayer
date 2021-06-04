@@ -202,6 +202,7 @@
             // 
             // saveImgButton
             // 
+            this.saveImgButton.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
             this.saveImgButton.BackgroundImage = ((System.Drawing.Image)(resources.GetObject("saveImgButton.BackgroundImage")));
             this.saveImgButton.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch;
             this.saveImgButton.Location = new System.Drawing.Point(676, 449);
