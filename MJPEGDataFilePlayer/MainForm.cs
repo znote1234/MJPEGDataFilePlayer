@@ -35,6 +35,7 @@ namespace MJPEGDataFilePlayer
 
             this.saveImgtoolTip.SetToolTip(saveImgButton, "Save one frame image.");
 
+            this.pictureBox.AllowDrop = true;
         }
 
         void fpsTextBox_TypeValidationCompleted(object sender, TypeValidationEventArgs e)
@@ -56,23 +57,28 @@ namespace MJPEGDataFilePlayer
             string filePath = showSelectOpenFileDlg();
             if (filePath != "")
             {
-                m_targetFilePath = filePath;
-                this.Text = m_titleString + "  [" + m_targetFilePath + "]";
-
-                m_analyse = new AnalyseMJPEGDataFile(m_targetFilePath);
-                if (m_analyse.IsEnableData)
-                {
-                    initRadioBtnAndResetStatus(true);
-                    m_maxFrameNo = m_analyse.MaxFrameCount;
-                    m_nowFrameNo = 1;
-                    showImg(m_nowFrameNo);
-                    initTrackBer(m_analyse.MaxFrameCount);
-                }
-                else
-                {
-                    MessageBox.Show("File read error.");
-                }
+                openFile(filePath);
             }            
+        }
+
+        private void openFile(string filePath)
+        {
+            m_targetFilePath = filePath;
+            this.Text = m_titleString + "  [" + m_targetFilePath + "]";
+
+            m_analyse = new AnalyseMJPEGDataFile(m_targetFilePath);
+            if (m_analyse.IsEnableData)
+            {
+                initRadioBtnAndResetStatus(true);
+                m_maxFrameNo = m_analyse.MaxFrameCount;
+                m_nowFrameNo = 1;
+                showImg(m_nowFrameNo);
+                initTrackBer(m_analyse.MaxFrameCount);
+            }
+            else
+            {
+                MessageBox.Show("File read error.");
+            }
         }
 
         private string showSelectOpenFileDlg()
@@ -296,5 +302,19 @@ namespace MJPEGDataFilePlayer
             }
             return resultFilePath;
         }
+
+        private void pictureBox_DragEnter(object sender, DragEventArgs e)
+        {
+            e.Effect = DragDropEffects.All;
+        }
+
+        private void pictureBox_DragDrop(object sender, DragEventArgs e)
+        {
+            if (!e.Data.GetDataPresent(DataFormats.FileDrop)) return;
+
+            string filePath = ((string[])e.Data.GetData(DataFormats.FileDrop))[0];
+            openFile(filePath);
+        }
+
     }
 }
